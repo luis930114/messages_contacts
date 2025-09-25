@@ -53,7 +53,7 @@ Backend profesional para gestión de mensajes de contacto con clasificación aut
 
 ```bash
 # Clonar repositorio
-git clone <tu-repo-url>
+git clone https://github.com/luis930114/messages_contacts.git
 cd contact-backend
 
 # Crear entorno virtual
