@@ -5,19 +5,23 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/v1/health
+    plan: free
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: contact-postgres
           property: connectionString
       - key: EMAIL_USER
-        value: your-email@gmail.com
+        value: tu-email@gmail.com  # Cambia esto por tu email
       - key: EMAIL_PASSWORD
-        value: your-app-password
+        value: tu-app-password     # Cambia esto por tu contraseña de app
       - key: SUPPORT_SERVICE_URL
-        value: https://your-support-service.com/webhook
+        value: https://httpbin.org/post  # URL de prueba
+      - key: LOG_LEVEL
+        value: INFO
 
   - type: pgsql
     name: contact-postgres
     databaseName: contacts_db
     databaseUser: contacts_user
+    plan: free
