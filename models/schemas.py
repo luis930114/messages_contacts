@@ -43,7 +43,13 @@ class ContactResponse(BaseModel):
     fecha_creacion: datetime
     
     class Config:
-        json_schema_extra = True
+        json_schema_extra ={
+        "example": {
+            "nombre": "Juan Pérez",
+            "email": "juan@example.com",
+            "mensaje": "Mensaje de ejemplo"
+        }
+    }
 
 class ContactStats(BaseModel):
     """
