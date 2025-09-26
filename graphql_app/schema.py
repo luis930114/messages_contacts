@@ -8,8 +8,10 @@ schema = strawberry.Schema(
     mutation=Mutation,
 )
 
-graphql_router = GraphQLRouter(
+"""graphql_router = GraphQLRouter(
     schema,
     path="/graphql",
     graphql_ide="graphiql", 
-)
+)"""
+
+graphql_router = GraphQLRouter(schema)

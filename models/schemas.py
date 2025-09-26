@@ -43,7 +43,7 @@ class ContactResponse(BaseModel):
     fecha_creacion: datetime
     
     class Config:
-        orm_mode = True
+        json_schema_extra = True
 
 class ContactStats(BaseModel):
     """
