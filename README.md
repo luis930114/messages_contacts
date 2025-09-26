@@ -192,6 +192,7 @@ Para ingresar a utilizar los servicios de GraphQl ingresamos por el end point /g
       hasNextPage
     }
   }
+```
 
 #### Obtener un contacto específico por ID
 
@@ -206,6 +207,7 @@ query {
             diasDesdeCreacion
           }
         }
+```
 
 #### Obtener estadísticas
 ```graphql
@@ -218,6 +220,7 @@ query {
             soportePercentage
           }
         }
+```
 
 ####  Clasificar un mensaje sin guardarlo
 ```graphql
@@ -228,6 +231,7 @@ query {
             palabrasClaveEncontradas
           }
         }
+```
 
 #### Crear un nuevo contacto
 ```graphql
@@ -252,12 +256,14 @@ query {
             error
           }
         }
+```
 
 #### Eliminar un contacto por ID
 ```graphql
         mutation {
           deleteContact(id: 1)
         }
+```
 
 
 ## Configuración Avanzada
