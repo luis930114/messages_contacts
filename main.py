@@ -5,6 +5,7 @@ import logging
 
 from database.connection import init_database, check_database_connection
 from api.routes import router
+from graphql_app.schema import graphql_router
 from config import API_CONFIG
 
 # Configuración de logging
@@ -12,7 +13,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('contact_backend.log'),
+        logging.FileHandler('contact_backend.log',encoding="utf-8"),
         logging.StreamHandler()
     ]
 )
@@ -34,6 +35,7 @@ async def lifespan(app: FastAPI):
     logger.info("Contact Management Backend iniciado exitosamente!")
     logger.info(f"Servidor ejecutándose en http://{API_CONFIG['host']}:{API_CONFIG['port']}")
     logger.info(f"Documentación disponible en http://{API_CONFIG['host']}:{API_CONFIG['port']}/docs")
+    logger.info(f"GraphQL playground: http://{API_CONFIG['host']}:{API_CONFIG['port']}/graphql")
     
     yield
     
@@ -83,19 +85,34 @@ app.add_middleware(
 # Incluir rutas
 app.include_router(router, prefix="/api/v1", tags=["contacts"])
 
+# Rutas GraphQL
+app.include_router(graphql_router, tags=["GraphQL API"])
+
 @app.get("/")
 async def root():
     """
-    Endpoint raíz con información básica de la API
+    Endpoint raíz con información de ambas APIs
     """
     return {
-        "message": "Contact Management API",
+        "message": "Contact Management API - Dual REST + GraphQL",
         "version": "1.0.0",
         "status": "active",
-        "docs": "/docs",
-        "redoc": "/redoc",
+        "apis": {
+            "rest": {
+                "base_url": "/api/v1",
+                "docs": "/docs",
+                "redoc": "/redoc"
+            },
+            "graphql": {
+                "endpoint": "/graphql",
+                "playground": "/graphql (GraphiQL)",
+                "features": ["queries", "mutations", "subscriptions", "introspection"]
+            }
+        },
         "health": "/api/v1/health"
     }
+
+
 
 @app.exception_handler(ValueError)
 async def value_error_handler(request, exc):

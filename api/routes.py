@@ -13,7 +13,7 @@ from database.connection import get_db
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-# Servicios singleton
+# Servicios
 classifier = MessageClassifier()
 automation_service = AutomationService()
 
