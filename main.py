@@ -86,7 +86,7 @@ app.add_middleware(
 app.include_router(router, prefix="/api/v1", tags=["contacts"])
 
 # Rutas GraphQL
-app.include_router(graphql_router, tags=["GraphQL API"])
+app.include_router(graphql_router, prefix="/graphql", tags=["GraphQL API"])
 
 @app.get("/")
 async def root():
