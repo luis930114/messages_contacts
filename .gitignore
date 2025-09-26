@@ -22,8 +22,6 @@ env/
 *.ini
 *.cfg
 *.toml
-*.yaml
-*.yml
 *.json
 
 # ---- Base de datos local ----
