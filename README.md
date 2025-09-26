@@ -116,6 +116,150 @@ curl "http://localhost:8000/contacts?categoria=ventas"
 curl "http://localhost:8000/stats"
 ```
 
+## API Reference
+
+### SERVICIOS REST
+
+#### Crear un contacto
+
+```http
+  POST api/v1/contact
+    Crear un nuevo usuario
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `nombre` | `string` | **Required**. Your nombre |
+| `email` | `string` | **Required**. Your email |
+| `mensaje` | `string` | **Required**. Your mensaje |
+
+#### Ver todos los contacto
+
+```http
+  GET api/v1/contact
+    Ver todos los contactos
+```
+
+#### Ver contactos por categoria
+
+```http
+  GET api/v1/contacts?categoria={categoria_nombre}
+    Ver contactos por categoria
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `categoria_nombre` | `string` | **Required**. Tiene las opciones de ser ventas, soporte y otros |
+
+
+#### Ver un contacto por su id
+
+```http
+  GET api/v1/contacts7{id}
+    Ver un contacto por su id
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id` | `string` | **Required**. Id del contacto que quiere buscar |
+
+#### Ver estadisticas
+
+```http
+  GET /api/v1/stats
+    Ver estadisticas como son el total de contactos y el total por categorías.
+```
+
+### SERVICIOS GRAPHQL
+
+Para ingresar a utilizar los servicios de GraphQl ingresamos por el end point /graphql y podemos utilizar los siguientes queries:
+
+#### Obtener lista de contactos con filtros y paginación
+```graphql
+  query {
+    contacts(
+      filter: { categoria: {categoria}, searchText: "interesa" }
+      pagination: { limit: 10, offset: 0 }
+    ) {
+      nodes {
+        id
+        nombre
+        email
+        categoria
+        mensajePreview
+      }
+      totalCount
+      hasNextPage
+    }
+  }
+
+#### Obtener un contacto específico por ID
+
+```graphql
+query {
+          contact(id: {id}) {
+            id
+            nombre
+            email
+            mensaje
+            categoria
+            diasDesdeCreacion
+          }
+        }
+
+#### Obtener estadísticas
+```graphql
+query {
+          stats {
+            totalContacts
+            ventasCount
+            soporteCount
+            ventasPercentage
+            soportePercentage
+          }
+        }
+
+####  Clasificar un mensaje sin guardarlo
+```graphql
+        query {
+          classifyMessage(mensaje: "Hola, quiero comprar sus servicios") {
+            categoriaDetectada
+            confianzaScore
+            palabrasClaveEncontradas
+          }
+        }
+
+#### Crear un nuevo contacto
+```graphql
+        mutation {
+          createContact(input: {
+            nombre: "Juan Pérez"
+            email: "juan@test.com"
+            mensaje: "Necesito ayuda con un problema técnico"
+          }) {
+            success
+            contact {
+              id
+              nombre
+              categoria
+              diasDesdeCreacion
+            }
+            automationResult {
+              actionPerformed
+              success
+              priority
+            }
+            error
+          }
+        }
+
+#### Eliminar un contacto por ID
+```graphql
+        mutation {
+          deleteContact(id: 1)
+        }
+
+
 ## Configuración Avanzada
 
 ### Variables de Entorno
@@ -181,7 +325,6 @@ pytest --cov=main --cov-report=html
 - [ ] Integración con OpenAI/Claude para clasificación más precisa
 - [ ] Sistema de webhooks para notificaciones en tiempo real  
 - [ ] Dashboard administrativo con métricas
-- [ ] API GraphQL (como menciona el plus de la prueba)
 - [ ] Rate limiting y autenticación
 - [ ] Logs estructurados con ELK stack
 - [ ] Métricas con Prometheus/Grafana
