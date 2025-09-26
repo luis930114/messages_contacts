@@ -106,7 +106,7 @@ async def root():
             "graphql": {
                 "endpoint": "/graphql",
                 "playground": "/graphql (GraphiQL)",
-                "features": ["queries", "mutations", "subscriptions", "introspection"]
+                "features": ["queries", "mutations"]
             }
         },
         "health": "/api/v1/health"
