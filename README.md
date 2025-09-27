@@ -1,6 +1,6 @@
 #  Contact Management Backend
 
-Backend profesional para gestión de mensajes de contacto con clasificación automática por IA y sistema de automatizaciones.
+Backend para gestión de mensajes de contacto con clasificación automática por IA y sistema de automatizaciones.
 
 ## Características Principales
 
@@ -21,8 +21,8 @@ Backend profesional para gestión de mensajes de contacto con clasificación aut
 - **ORM:** SQLAlchemy 2.0
 - **Validación:** Pydantic v2
 - **IA/NLP:** Clasificación por palabras clave (extensible)
-- **Deployment:** Docker + Docker Compose
-- **Testing:** pytest + httpx
+- **Deployment:** Render.com
+- **Testing:** pytest 
 
 ## Funcionalidades Implementadas
 
