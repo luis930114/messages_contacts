@@ -46,7 +46,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Contact Management API",
     description="""
-    Backend profesional para gestión de mensajes de contacto con las siguientes características:
+    Backend para gestión de mensajes de contacto con las siguientes características:
     
     **Clasificación Automática con IA**
     - Análisis inteligente del contenido de los mensajes
@@ -76,16 +76,14 @@ app = FastAPI(
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En producción: especificar dominios exactos
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Incluir rutas
 app.include_router(router, prefix="/api/v1", tags=["contacts"])
 
-# Rutas GraphQL
 app.include_router(graphql_router, prefix="/graphql", tags=["GraphQL API"])
 
 @app.get("/")

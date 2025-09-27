@@ -104,12 +104,10 @@ async def get_contacts(
     try:
         query = db.query(ContactDB)
         
-        # Aplicar filtro de categoría
         if categoria:
             query = query.filter(ContactDB.categoria == categoria.lower())
             logger.info(f"Filtro aplicado: categoria={categoria}")
         
-        # Aplicar paginación y ordenamiento
         contacts = query.order_by(ContactDB.fecha_creacion.desc())\
                        .offset(offset)\
                        .limit(limit)\
