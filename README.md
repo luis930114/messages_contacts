@@ -307,24 +307,16 @@ class AdvancedMessageClassifier:
 2. Configura las variables de entorno
 3. Deploy automático con cada push
 
-### Heroku
-```bash
-# Instalar Heroku CLI y login
-heroku create tu-app-name
-heroku addons:create heroku-postgresql:hobby-dev
-git push heroku main
-```
-
 
 ## Testing
 
 ```bash
-# Ejecutar tests
+# Ejecutar todos los tests
 pytest
 
-# Con coverage
-pytest --cov=main --cov-report=html
-```
+```bash
+# Ejecutar los tests de los modelos
+pytest test/test_models.py
 
 ## Próximas Mejoras
 
