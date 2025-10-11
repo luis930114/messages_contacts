@@ -65,11 +65,7 @@ class AutomationService:
         Maneja automatización para mensajes de ventas
         """
         try:
-            # En desarrollo/demo: Solo logging
             await self._log_sales_email(contact)
-            
-            # En producción: Descomentar para envío real
-            # await self._send_real_sales_email(contact)
             
             return {
                 "success": True,
@@ -99,9 +95,6 @@ class AutomationService:
             # En desarrollo/demo: Solo logging
             await self._log_support_notification(payload)
             
-            # En producción: Descomentar para notificación real
-            # await self._send_real_support_notification(payload)
-            
             return {
                 "success": True,
                 "action": "support_notification_sent",
@@ -129,62 +122,7 @@ class AutomationService:
         logger.info(f"   Cliente: {payload['customer_name']}")
         logger.info(f"   Prioridad: {payload['priority']}")
         logger.info(f"   Payload: {payload}")
-    
-    async def _send_real_sales_email(self, contact: ContactDB):
-        """
-        Envío real de email SMTP (para producción)
-        """
-        try:
-            msg = MIMEMultipart()
-            msg['From'] = self.smtp_config["user"]
-            msg['To'] = "sales@company.com"
-            msg['Subject'] = f"Nueva consulta de ventas - {contact.nombre}"
-            
-            body = f"""
-            Nueva consulta de ventas recibida:
-            
-            Información del Cliente:
-            • Nombre: {contact.nombre}
-            • Email: {contact.email}
-            • Fecha: {contact.fecha_creacion}
-            
-            Mensaje:
-            {contact.mensaje}
-            
-            ---
-            Sistema de Gestión de Contactos
-            """
-            
-            msg.attach(MIMEText(body, 'plain'))
-            
-            with smtplib.SMTP(self.smtp_config["server"], self.smtp_config["port"]) as server:
-                server.starttls()
-                server.login(self.smtp_config["user"], self.smtp_config["password"])
-                server.send_message(msg)
-                
-            logger.info(f"Email real enviado para contacto {contact.id}")
-                
-        except Exception as e:
-            raise Exception(f"Error enviando email SMTP: {str(e)}")
-    
-    async def _send_real_support_notification(self, payload: Dict):
-        """
-        Notificación real al microservicio (para producción)
-        """
-        try:
-            response = requests.post(
-                self.support_service_url,
-                json=payload,
-                timeout=10,
-                headers={"Content-Type": "application/json"}
-            )
-            response.raise_for_status()
-            
-            logger.info(f"Soporte notificado exitosamente: {response.status_code}")
-            return response.json()
-            
-        except requests.RequestException as e:
-            raise Exception(f"Error notificando a soporte: {str(e)}")
+        
     
     def _determine_priority(self, message: str) -> str:
         """

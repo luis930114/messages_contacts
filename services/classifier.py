@@ -13,20 +13,16 @@ class MessageClassifier:
     
     def __init__(self):
         self.sales_keywords = [
-            # Español
             'comprar', 'precio', 'costo', 'cotización', 'presupuesto', 'venta',
             'producto', 'servicio', 'oferta', 'descuento', 'comercial', 'adquirir',
             'cuánto cuesta', 'me interesa', 'quisiera', 'necesito', 'contratar',
-            # Inglés
             'buy', 'price', 'quote', 'purchase', 'sale', 'offer', 'discount',
             'cost', 'interested', 'need', 'want', 'hire'
         ]
         
         self.support_keywords = [
-            # Español
             'problema', 'error', 'bug', 'ayuda', 'soporte', 'técnico', 'falla',
             'no funciona', 'roto', 'arreglar', 'reparar', 'urgente', 'emergencia',
-            # Inglés
             'support', 'help', 'issue', 'technical', 'assistance', 'trouble',
             'fix', 'repair', 'maintenance', 'broken', 'not working', 'urgent'
         ]
@@ -56,11 +52,9 @@ class MessageClassifier:
         """
         message_lower = message.lower()
         
-        # 1. Contar coincidencias con palabras clave
         sales_score = self._calculate_keyword_score(message_lower, self.sales_keywords)
         support_score = self._calculate_keyword_score(message_lower, self.support_keywords)
         
-        # 2. Analizar patrones específicos (peso mayor)
         sales_pattern_score = self._calculate_pattern_score(message_lower, self.sales_patterns) * 2
         support_pattern_score = self._calculate_pattern_score(message_lower, self.support_patterns) * 2
         

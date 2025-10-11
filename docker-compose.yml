@@ -24,6 +24,12 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contacts_user -d contacts_db"]
+      interval: 10s      # cada cuánto probar
+      timeout: 5s        # tiempo máximo para que responda
+      retries: 5         # cuántas veces intentar antes de marcar como "unhealthy"
+      start_period: 5s   # tiempo inicial antes de empezar a chequear
 
 volumes:
   postgres_data:

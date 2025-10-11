@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, validator, ConfigDict
 from datetime import datetime
 from typing import Optional
 
@@ -43,13 +43,9 @@ class ContactResponse(BaseModel):
     fecha_creacion: datetime
     
     class Config:
-        json_schema_extra ={
-        "example": {
-            "nombre": "Juan Pérez",
-            "email": "juan@example.com",
-            "mensaje": "Mensaje de ejemplo"
-        }
-    }
+        model_config = ConfigDict(json_schema_extra={
+    "example": {"nombre": "Luis", "mensaje": "Hola"}
+})
 
 class ContactStats(BaseModel):
     """

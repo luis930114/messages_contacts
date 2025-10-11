@@ -6,7 +6,8 @@ import logging
 
 from models.schemas import ContactCreate, ContactResponse, ContactStats
 from models.database import ContactDB
-from services.classifier import MessageClassifier
+from services.classifier_factory import ClassifierFactory
+#from services.classifier import MessageClassifier
 from services.automation import AutomationService
 from database.connection import get_db
 
@@ -14,7 +15,8 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # Servicios
-classifier = MessageClassifier()
+#classifier = MessageClassifier()
+classifier = ClassifierFactory.create()
 automation_service = AutomationService()
 
 @router.post("/contact", response_model=ContactResponse, status_code=201)
@@ -36,7 +38,9 @@ async def create_contact(
     """
     try:
         # 1. Clasificar mensaje con IA
-        categoria = classifier.classify_message(contact.mensaje)
+        result = classifier.classify(contact.mensaje)
+        categoria = result.categoria
+       #categoria = classifier.classify_message(contact.mensaje)
         logger.info(f"Mensaje clasificado como: {categoria}")
         
         # 2. Crear registro en base de datos
